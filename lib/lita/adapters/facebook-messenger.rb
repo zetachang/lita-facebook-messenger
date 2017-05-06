@@ -102,12 +102,24 @@ module Lita
 
           log.debug "outgoing message: #{message_data.inspect}"
 
-          Bot.deliver(
-            recipient: {
-              id: target.room
-            },
-            message: message_data
-          )
+          if message_data[:text] && message_data[:text].length > 640
+            original_txt = message_data[:text]
+            original_txt.split("\n").each do |txt|
+              Bot.deliver(
+                recipient: {
+                  id: target.room
+                },
+                message: { text: txt }
+              )
+            end
+          else
+            Bot.deliver(
+              recipient: {
+                id: target.room
+              },
+              message: message_data
+            )
+          end
         end
       end
 
