@@ -39,7 +39,7 @@ module Lita
           source = Lita::Source.new(user: user, room: chat)
 
 
-          if message.attachments.present?
+          if message.attachments
             attachment = message.attachments.first
             if attachment && attachment["type"] == "location"
               text = "/location #{attachment["payload"]["coordinates"]["lat"]} #{attachment["payload"]["coordinates"]["long"]}"
